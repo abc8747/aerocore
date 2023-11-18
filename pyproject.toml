@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AirTrafficSim"
+version = "0.0.3"
+authors = [
+    {name = "Frankie Hui", email = "kyhuiaf@connect.ust.hk"},
+]
+description = "A web-based air traffic simulation software written in Python and javascript."
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["air transportation", "atm", "simulations", "visualisation"]
+license = {text = "GPL-3.0"}
+classifiers = [
+    "Framework :: Flask",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "Flask",
+    "Flask-SocketIO",
+    "Eventlet",
+    "cartopy",
+    "cdsapi",
+    "xarray",
+    "openap"
+]
+
+[project.urls]
+documentation = "https://hkust-octad-lab.github.io/AirTrafficSim/"
+repository = "https://github.com/HKUST-OCTAD-LAB/AirTrafficSim"
+
+[project.scripts]
+airtrafficsim = "airtrafficsim.__main__:main"
+
+[tool.setuptools]
+packages = ["airtrafficsim", 
+            "airtrafficsim.core",
+            "airtrafficsim.core.weather",
+            "airtrafficsim.core.performance",
+            "airtrafficsim.data", 
+            "airtrafficsim.server", 
+            "airtrafficsim.utils"]
+include-package-data = true
+
+[project.optional-dependencies]
+tests = [
+  'pytest',
+  'coverage'
+]
+docs = [
+  'sphinx',
+  'myst-parser',
+  'furo',
+  'numpydoc'
+]
