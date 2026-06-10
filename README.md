@@ -22,17 +22,26 @@ uv add aerocore
 
 Depending on your use case, you can pick the optional dependencies you need:
 
-- `all`: install all optional dependencies
 - `polars`: support for [polars](https://github.com/pola-rs/polars) and its Array API shim (postprocessing third party data)
 - `httpx`: support for [httpx](https://github.com/encode/httpx) (downloading data from external sources)
 - `xarray`: support for [xarray](https://github.com/pydata/xarray) (ARCO-ERA5 weather grids, working with NetCDF)
 - `jax`: support for [JAX](https://github.com/jax-ml/jax) (automatic differentiation support)
 - `matplotlib`: plotting
+- `cli`: command line scripts
+- `all`: install all optional dependencies (not recommended!)
 
 For example:
 
 ```sh
-pip install "aerocore[httpx,polars]"
+pip install "aerocore[httpx,polars,cli]"
+```
+
+## Usage
+
+For the CLI:
+
+```sh
+uv run aerocore --help
 ```
 
 ## Development

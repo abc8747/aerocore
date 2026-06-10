@@ -40,7 +40,12 @@ xarray = ["xarray>=2024.11.0"]
 jax = ["jax>=0.5.0"]
 matplotlib = ["matplotlib>=3.10.0"]
 rich = ["rich>=14.0.0"]
-all = ["aerocore[polars,httpx,xarray,jax,matplotlib,rich]"]
+cli = ["typer>=0.26"]
+platformdirs = ["platformdirs>=4"]
+all = ["aerocore[polars,httpx,xarray,jax,matplotlib,rich,cli,platformdirs]"]
+
+[project.scripts]
+aerocore = "aerocore.cli:app"
 
 
 [dependency-groups]
@@ -55,17 +60,14 @@ dev = [
     "types-pytz>=2024.2.0.20241221",
 ]
 test = ["pytest-cov>=6.0.0", "pytest>=8.3.4", "anyio>=4.7.0"]
-docs = [
-    "zensical>=0.0.43",
-    "mkdocstrings-python>=2.0.3",
-]
+docs = ["zensical>=0.0.43", "mkdocstrings-python>=2.0.3"]
 
 [tool.ruff]
 lint.select = [
     "E",
-    "W",   # pycodestyle
-    "F",   # pyflakes
-    "I",   # isort
+    "W", # pycodestyle
+    "F", # pyflakes
+    "I", # isort
     "NPY", # numpy
     # "PD",  # pandas
     "DTZ", # flake8-datetimez

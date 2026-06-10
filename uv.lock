@@ -36,10 +36,15 @@ all = [
     { name = "jax", version = "0.6.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "jax", version = "0.10.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "matplotlib" },
+    { name = "platformdirs" },
     { name = "polars", extra = ["calamine"] },
     { name = "rich" },
+    { name = "typer" },
     { name = "xarray", version = "2025.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "xarray", version = "2026.4.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+cli = [
+    { name = "typer" },
 ]
 httpx = [
     { name = "httpx", extra = ["http2"] },
@@ -50,6 +55,9 @@ jax = [
 ]
 matplotlib = [
     { name = "matplotlib" },
+]
+platformdirs = [
+    { name = "platformdirs" },
 ]
 polars = [
     { name = "polars", extra = ["calamine"] },
@@ -88,17 +96,19 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aerocore", extras = ["polars", "httpx", "xarray", "jax", "matplotlib", "rich"], marker = "extra == 'all'" },
+    { name = "aerocore", extras = ["polars", "httpx", "xarray", "jax", "matplotlib", "rich", "cli", "platformdirs"], marker = "extra == 'all'" },
     { name = "httpx", extras = ["http2"], marker = "extra == 'httpx'", specifier = ">=0.28.1" },
     { name = "isqx", specifier = ">=0.1.2" },
     { name = "jax", marker = "extra == 'jax'", specifier = ">=0.5.0" },
     { name = "matplotlib", marker = "extra == 'matplotlib'", specifier = ">=3.10.0" },
     { name = "numpy", specifier = ">=2" },
+    { name = "platformdirs", marker = "extra == 'platformdirs'", specifier = ">=4" },
     { name = "polars", extras = ["calamine"], marker = "extra == 'polars'", specifier = ">=1.18.0" },
     { name = "rich", marker = "extra == 'rich'", specifier = ">=14.0.0" },
+    { name = "typer", marker = "extra == 'cli'", specifier = ">=0.26" },
     { name = "xarray", marker = "extra == 'xarray'", specifier = ">=2024.11.0" },
 ]
-provides-extras = ["polars", "httpx", "xarray", "jax", "matplotlib", "rich", "all"]
+provides-extras = ["polars", "httpx", "xarray", "jax", "matplotlib", "rich", "cli", "platformdirs", "all"]
 
 [package.metadata.requires-dev]
 dev = [

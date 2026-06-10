@@ -1,15 +1,26 @@
-"""Miscellaneous utility functions (stdlib only).
-
-Do not import any other modules from this package here.
-"""
+"""Miscellaneous utility functions."""
+# avoid importing anything other than stdlib, use local imports instead.
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from logging import getLogger
+from pathlib import Path
 from typing import Callable, Concatenate, Generic, ParamSpec, TypeVar
 
 logger = getLogger(__name__)
+
+
+def default_cache_dir() -> Path:
+    """Requires optional dependency `platformdirs`"""
+    import platformdirs
+
+    return Path(platformdirs.user_cache_dir("aerocore")) / "data"
+
+
+#
+# hooks
+#
 
 
 P = ParamSpec("P")
