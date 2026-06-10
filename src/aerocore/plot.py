@@ -7,7 +7,7 @@ to enable the webagg backend.
 
 Requires extras:
 
-- `plot`
+- `matplotlib`
 - `polars` for additional plots
 """
 

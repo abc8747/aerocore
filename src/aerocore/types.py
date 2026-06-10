@@ -6,7 +6,7 @@ and units.
 When annotating functions, use **unconstrained generic types**:
 
 ```py
-from airtrafficsim import types as t
+from aerocore import types as t
 
 def foo(x: t.StaticTemperatureK) -> t.PressurePA:
     ...

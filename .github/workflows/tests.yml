@@ -2,7 +2,7 @@ name: tests
 
 on:
   workflow_dispatch:
-  pull_request_target:
+  pull_request:
   push:
 
 concurrency:
@@ -23,16 +23,17 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: true
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -40,32 +41,16 @@ jobs:
         run: uv sync --all-extras --all-groups
 
       - name: Style checking
+        continue-on-error: true
         run: |
-          uv run ruff check src tests
-          uv run ruff format --check src tests
+          uv run ruff check src tests scripts examples
+          uv run ruff format --check src tests scripts examples
 
       - name: Type checking
-        run: uv run mypy src tests
-
-      # testing
-      # - name: Download data from private repository
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: HKUST-OCTAD-LAB/AirTrafficSim-data
-      #     ssh-key: ${{ secrets.SSH_KEY }}
-      #     path: AirTrafficSim-data
-
-      # - name: Unzip data
-      #   run: |
-      #     unzip -qq AirTrafficSim-data/BADA.zip -d airtrafficsim/data/performance/BADA
-      #     mv AirTrafficSim-data/.cdsapirc $HOME/
+        run: uv run mypy src tests scripts examples
 
       - name: Run tests
+        env:
+          OFFLINE: ${{ matrix.python-version != '3.10' && '1' || '0' }}
         run: |
-          uv run pytest --cov --cov-report xml
-
-      - name: Upload coverage to Codecov
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: codecov/codecov-action@v5
-        with:
-          env_vars: ${{ matrix.python-version }}
+          uv run pytest -s

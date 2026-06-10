@@ -1,1 +1,0 @@
-Examples to demonstrate the new rewrite of the `airtrafficsim` library.

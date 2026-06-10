@@ -1,4 +1,4 @@
-::: airtrafficsim.geo
-::: airtrafficsim.airspeed
-::: airtrafficsim.bada3
-::: airtrafficsim.thermo
+::: aerocore.geo
+::: aerocore.airspeed
+::: aerocore.bada3
+::: aerocore.thermo

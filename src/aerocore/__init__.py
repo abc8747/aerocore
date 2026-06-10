@@ -1,3 +1,3 @@
-"""AirTrafficSim v0.2"""
+"""aerocore"""
 
 from .utils import hook as hook

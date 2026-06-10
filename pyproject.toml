@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "AirTrafficSim"
-version = "0.2.0-alpha.4"
+name = "aerocore"
+version = "0.2.1"
 authors = [{ name = "Abraham Cheung", email = "abraham@ylcheung.com" }]
 description = "A lightweight collection of tools for air traffic management research."
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
-keywords = ["air transportation", "atm", "simulations", "visualisation"]
+keywords = ["air transportation", "atm", "visualisation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Information Technology",
@@ -25,21 +25,22 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Typing :: Typed",
 ]
 dependencies = ["isqx>=0.1.2", "numpy>=2"]
 
 [project.urls]
-Repository = "https://github.com/HKUST-OCTAD-LAB/AirTrafficSim"
+Repository = "https://github.com/abc8747/aerocore"
 
 [project.optional-dependencies]
 polars = ["polars[calamine]>=1.18.0"]
-networking = ["httpx[http2]>=0.28.1"]
-era5 = ["xarray>=2024.11.0"]
-rich = ["rich>=14.0.0"]
+httpx = ["httpx[http2]>=0.28.1"]
+xarray = ["xarray>=2024.11.0"]
 jax = ["jax>=0.5.0"]
-plot = ["matplotlib>=3.10.0"]
-all = ["airtrafficsim[polars,networking,era5,rich]"]
+matplotlib = ["matplotlib>=3.10.0"]
+rich = ["rich>=14.0.0"]
+all = ["aerocore[polars,httpx,xarray,jax,matplotlib,rich]"]
 
 
 [dependency-groups]
@@ -55,11 +56,9 @@ dev = [
 ]
 test = ["pytest-cov>=6.0.0", "pytest>=8.3.4", "anyio>=4.7.0"]
 docs = [
-    "griffe-warnings-deprecated>=1.1.0",
-    "mkdocs-material[imaging]>=9.5.49",
-    "mkdocstrings-python>=1.13.0",
+    "zensical>=0.0.43",
+    "mkdocstrings-python>=2.0.3",
 ]
-
 
 [tool.ruff]
 lint.select = [
@@ -96,15 +95,15 @@ warn_unused_ignores = true
 # we disable type-arg otherwise mypy will always complain with a bare `t.CasMPS` 
 [[tool.mypy.overrides]]
 module = [
-    "airtrafficsim.constants",
-    "airtrafficsim.thermo",
-    "airtrafficsim.airspeed",
-    "airtrafficsim.bada3",
-    "airtrafficsim.geo",
-    "airtrafficsim.turbofan",
+    "aerocore.constants",
+    "aerocore.thermo",
+    "aerocore.airspeed",
+    "aerocore.bada3",
+    "aerocore.geo",
+    "aerocore.turbofan",
 ]
 disable_error_code = ["type-arg"]
 
 [[tool.mypy.overrides]]
-module = ["airtrafficsim.array_api"]
+module = ["aerocore.array_api"]
 disable_error_code = ["type-arg", "no-untyped-def"]

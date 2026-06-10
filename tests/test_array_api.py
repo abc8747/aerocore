@@ -1,7 +1,7 @@
 import pytest
 
 import numpy as np
-from airtrafficsim.array_api import linear_interp
+from aerocore.array_api import linear_interp
 
 
 @pytest.mark.parametrize(

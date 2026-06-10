@@ -1,3 +1,3 @@
-::: airtrafficsim.utils
-::: airtrafficsim.column
-::: airtrafficsim.plot
+::: aerocore.utils
+::: aerocore.column
+::: aerocore.plot

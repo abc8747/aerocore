@@ -1,4 +1,4 @@
-from airtrafficsim import hook
+from aerocore import hook
 
 
 def test_hook() -> None:

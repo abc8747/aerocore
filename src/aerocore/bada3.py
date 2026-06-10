@@ -32,12 +32,12 @@ Contents:
 The following functions are defined elsewhere:
 
 - 3.1-21 Determination of air density
-[airtrafficsim.thermo.density][]
+[aerocore.thermo.density][]
 - 3.1-22 Determination of speed of sound
-[airtrafficsim.thermo.speed_of_sound][]
+[aerocore.thermo.speed_of_sound][]
 - 3.1-23, 3.1-24 CAS/TAS conversion
-    - [airtrafficsim.airspeed.tas_from_cas][]
-    - [airtrafficsim.airspeed.cas_from_tas][]
+    - [aerocore.airspeed.tas_from_cas][]
+    - [aerocore.airspeed.cas_from_tas][]
 """
 
 from __future__ import annotations

@@ -1,3 +1,3 @@
-::: airtrafficsim.data
+::: aerocore.data
     options:
         show_submodules: true

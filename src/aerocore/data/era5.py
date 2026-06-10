@@ -13,7 +13,7 @@ Data License: [Copernicus license](https://apps.ecmwf.int/datasets/licences/cope
 
 Requires extras:
 
-- `network`, `polars`
+- `httpx`, `polars`
 - `gcloud` CLI to be installed and authenticated
 """
 

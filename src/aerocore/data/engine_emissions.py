@@ -3,7 +3,7 @@
 
 Requires extras:
 
-- `network`, `polars`
+- `httpx`, `polars`
 """
 
 from io import BytesIO

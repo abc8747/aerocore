@@ -7,7 +7,7 @@ from typing import Any
 import array_api_strict
 import polars as pl
 
-from airtrafficsim.polars import PolarsArrayApiNamespace
+from aerocore.polars import PolarsArrayApiNamespace
 
 logger = getLogger(__name__)
 

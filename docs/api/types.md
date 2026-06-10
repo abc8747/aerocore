@@ -1,1 +1,1 @@
-::: airtrafficsim.types
+::: aerocore.types

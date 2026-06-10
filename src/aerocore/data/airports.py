@@ -3,7 +3,7 @@ List of airports, from [ourairports](https://ourairports.com/data/)
 
 Requires extras:
 
-- `network`, `polars`
+- `httpx`, `polars`
 """
 
 from io import BytesIO
@@ -43,7 +43,7 @@ def scan_airports(fp: Path) -> pl.LazyFrame:
     """
     Lazily load list of airports from parquet file.
 
-    Schema: [airtrafficsim.data.airports.SCHEMA_AIRPORTS][]
+    Schema: [aerocore.data.airports.SCHEMA_AIRPORTS][]
     """
     if not fp.exists():
         raise FileNotFoundError(
@@ -63,7 +63,7 @@ async def fetch_airports(client: httpx.AsyncClient) -> pl.DataFrame:
     """
     Download all airports from ourairports.
 
-    Schema: [airtrafficsim.data.airports.SCHEMA_AIRPORTS][]
+    Schema: [aerocore.data.airports.SCHEMA_AIRPORTS][]
     """
     response = await client.get(f"{URL_BASE}/airports.csv")
     data = BytesIO(response.content)

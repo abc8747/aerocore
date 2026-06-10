@@ -1,8 +1,8 @@
-site_name: airtrafficsim
-site_description: A web-based air traffic simulation software written in Python and TypeScript.
-repo_name: HKUST-OCTAD-LAB/AirTrafficSim
-repo_url: https://github.com/HKUST-OCTAD-LAB/AirTrafficSim
-site_url: https://hkust-octad-lab.github.io/AirTrafficSim/
+site_name: aerocore
+site_description: Lightweight toolbox for air traffic management research
+repo_name: abc8747/aerocore
+repo_url: https://github.com/abc8747/aerocore
+site_url: https://abc8747.github.io/aerocore/
 nav:
   - API Reference:
       - Core: "api/core.md"
@@ -32,6 +32,7 @@ theme:
 plugins:
   - search
   - social
+  - autorefs
   - mkdocstrings:
       default_handler: python
       handlers:
@@ -67,28 +68,15 @@ markdown_extensions:
   - admonition
   - footnotes
   - md_in_html
+  - pymdownx.blocks.admonition
+  - pymdownx.blocks.details
   - pymdownx.details
-  - pymdownx.blocks.tab:
-      alternate_style: true
-      slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
   - pymdownx.tilde
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       pygments_lang_class: true
-  - pymdownx.inlinehilite:
-      style_plain_text: py3
   - pymdownx.magiclink
-  - pymdownx.snippets:
-      base_path: [!relative $config_dir]
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets
+  - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
       slugify: !!python/object/apply:pymdownx.slugs.slugify
@@ -96,7 +84,15 @@ markdown_extensions:
           case: lower
   - pymdownx.tasklist:
       custom_checkbox: true
-  - toc:
-      permalink: "¤"
   - pymdownx.arithmatex:
       generic: true
+extra_javascript:
+  - assets/js/katex.js
+  - https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/copy-tex.min.js
+extra_css:
+  - https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css
+# see: https://github.com/zensical/zensical/releases/tag/v0.0.38
+validation:
+  unresolved_references: false

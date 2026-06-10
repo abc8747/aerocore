@@ -3,7 +3,7 @@ List of aircraft types, from [ICAO DOC8643](https://www.icao.int/publications/DO
 
 Requires extras:
 
-- `network`, `polars`
+- `httpx`, `polars`
 """
 
 from io import BytesIO
