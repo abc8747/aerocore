@@ -5,19 +5,48 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   style-check:
-    name: "style and type checking"
-    if: (github.event_name != 'pull_request' && ! github.event.pull_request.head.repo.fork) || (github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork || startsWith(github.head_ref, 'dependabot/')))
-    runs-on: ${{ matrix.platform }}
+    name: style and type checking
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          enable-cache: true
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: install the project
+        run: uv sync --all-extras --all-groups
+
+      - name: style checking
+        run: |
+          uv run ruff check src tests scripts examples
+          uv run ruff format --check src tests scripts examples
+
+      - name: type checking
+        run: uv run mypy src tests scripts examples
+
+  tests:
+    name: tests / py${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest]
         python-version:
           - "3.10"
           - "3.11"
@@ -28,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Install uv
+      - name: install uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: true
@@ -37,20 +66,40 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install the project
+      - name: install the project
         run: uv sync --all-extras --all-groups
 
-      - name: Style checking
-        continue-on-error: true
-        run: |
-          uv run ruff check src tests scripts examples
-          uv run ruff format --check src tests scripts examples
+      - name: run non-network tests
+        run: uv run pytest -q -m "not network"
 
-      - name: Type checking
-        run: uv run mypy src tests scripts examples
+  network-tests:
+    name: network tests / py3.10
+    runs-on: ubuntu-latest
+    if: >-
+      ${{
+        github.event_name != 'pull_request' ||
+        !github.event.pull_request.head.repo.fork
+      }}
 
-      - name: Run tests
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          enable-cache: true
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: install zstd
+        run: sudo apt-get update && sudo apt-get install -y zstd
+
+      - name: install the project
+        run: uv sync --all-extras --all-groups
+
+      - name: run network tests
         env:
-          OFFLINE: ${{ matrix.python-version != '3.10' && '1' || '0' }}
-        run: |
-          uv run pytest -s
+          GH_TOKEN: ${{ github.token }}
+        run: uv run pytest -q -m network

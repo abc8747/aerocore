@@ -26,7 +26,7 @@ def main() -> None:
         try:
             pl_array_api_attr = getattr(PolarsArrayApiNamespace, array_api_attr)
         except AttributeError:
-            logger.error(f"missing {array_api_attr}")
+            logger.error("missing %s", array_api_attr)
             if array_api_attr in dir(pl.Expr):
                 logger.info("-- found exact match")
             continue

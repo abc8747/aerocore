@@ -138,9 +138,9 @@ def fetch_weather(
                     continue
                 queue.append(f"{gs_base}/{fp_relative}".encode())
             if not queue:
-                logger.info(f"{path_out}: skipping, all exists")
+                logger.info("%s: skipping, all exists", path_out)
                 continue
-            logger.info(f"{path_out}: downloading {len(queue)}")
+            logger.info("%s: downloading {len(queue)}", path_out)
             subprocess.check_output(
                 ["gcloud", "storage", "cp", "-I", str(path_out)],
                 input=b"\n".join(queue),
@@ -183,7 +183,9 @@ def concat_dataset(
         )
     )
     logger.debug(
-        f"reading {variable=}, found {len(weather_variable_fps)} nc files"
+        "reading %s, found %s nc files",
+        variable,
+        len(weather_variable_fps),
     )
 
     # NOTE: the pressure dimension is not included in each file - we generate

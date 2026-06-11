@@ -15,7 +15,7 @@ def default_cache_dir() -> Path:
     """Requires optional dependency `platformdirs`"""
     import platformdirs
 
-    return Path(platformdirs.user_cache_dir("aerocore")) / "data"
+    return platformdirs.user_cache_path("aerocore") / "data"
 
 
 #
@@ -85,7 +85,7 @@ class Hook(Generic[P, S]):
                 list(map(repr, args))
                 + [f"{k}={v!r}" for k, v in kwargs.items()]
             )
-            logger.debug(f"{original_fn.__name__}({all_args}) -> {result!r}")
+            logger.debug("%s(%s) -> %r", original_fn.__name__, all_args, result)
             return result
 
         return self.intercept(debug_interceptor)

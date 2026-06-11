@@ -27,6 +27,7 @@ Depending on your use case, you can pick the optional dependencies you need:
 - `xarray`: support for [xarray](https://github.com/pydata/xarray) (ARCO-ERA5 weather grids, working with NetCDF)
 - `jax`: support for [JAX](https://github.com/jax-ml/jax) (automatic differentiation support)
 - `matplotlib`: plotting
+- `platformdirs`: reading/writing cache/config files
 - `cli`: command line scripts
 - `all`: install all optional dependencies (not recommended!)
 
@@ -59,20 +60,22 @@ To run scripts:
 uv run examples/autodiff.py
 ```
 
-Alternatively, activate your virtualenv:
+For documentation:
 
 ```sh
-source .venv/bin/activate
-python3 examples/autodiff.py
+uv run zensical serve
 ```
 
-### Documentation
+It should then host at <http://127.0.0.1:8000/aerocore/>.
+
+For testing:
 
 ```sh
-uv run mkdocs serve
+# by default, it tests everything
+uv run pytest
+# skip slow network tests that fetch external data (e.g. adsb.lol, icao.int...)
+uv run pytest -m "not network"
 ```
-
-Then, navigate to <http://127.0.0.1:8000/aerocore/>.
 
 ### Contributing
 

@@ -56,6 +56,9 @@ AngleRad = Annotated[_T, isqx.ANGLE(isqx.RAD)]
 GravitationalAcceleration = Annotated[
     _T, isqx.ACCELERATION_OF_FREE_FALL(isqx.M_PERS2)
 ]
+TimestampUtcS = Annotated[_T, isqx.TIME["timestamp", "utc"](isqx.S)]
+LatitudeDeg = Annotated[_T, isqx.LATITUDE(isqx.DEG)]
+LongitudeDeg = Annotated[_T, isqx.LONGITUDE(isqx.DEG)]
 
 # thermodynamics
 PressurePA = Annotated[_T, isqx.PRESSURE(isqx.PA)]
@@ -108,3 +111,8 @@ BypassRatio = Annotated[_T, aero.BYPASS_RATIO]
 # deltas
 DeltaTemperatureK = Annotated[_T, isqx.TEMPERATURE[isqx.DELTA](isqx.K)]
 DeltaLengthM = Annotated[_T, isqx.LENGTH[isqx.DELTA](isqx.M)]
+
+# datalink: acars / vhf / vdl2 / hfdl
+FrequencyHz = Annotated[_T, isqx.FREQUENCY(isqx.HZ)]
+FrequencyMhz = Annotated[_T, isqx.FREQUENCY(isqx.MEGA * isqx.HZ)]
+BitPS = Annotated[_T, isqx.BIT_RATE(isqx.BIT * isqx.S**-1)]
