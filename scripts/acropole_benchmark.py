@@ -1,5 +1,6 @@
 #!/usr/bin/env -S uv run --no-default-groups --extra cli --extra jax_gpu --extra matplotlib --extra onnx --extra onnx_gpu --extra torch_gpu
 # ruff: noqa: E501
+# mypy: disable-error-code="type-arg"
 """Benchmark Array API functions across numerical backends.
 
 The harness is written to benchmark other functions in the future. It currently

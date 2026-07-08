@@ -26,10 +26,10 @@ jobs:
           python-version: "3.14"
 
       - name: Install docs dependencies
-        run: uv sync --no-default-groups --group docs
+        run: uv sync --no-default-groups --group docs --group typing
 
       - name: Build with Zensical
-        run: uv run --no-default-groups --group docs zensical build --clean
+        run: uv run --no-default-groups --group docs --group typing zensical build --clean
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
