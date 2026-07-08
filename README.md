@@ -25,7 +25,7 @@ Depending on your use case, you can pick the optional dependencies you need:
 - `polars`: support for [polars](https://github.com/pola-rs/polars) and its Array API shim (postprocessing third party data)
 - `httpx`: support for [httpx](https://github.com/encode/httpx) (downloading data from external sources)
 - `xarray`: support for [xarray](https://github.com/pydata/xarray) (ARCO-ERA5 weather grids, working with NetCDF)
-- `jax`: support for [JAX](https://github.com/jax-ml/jax) (automatic differentiation support)
+- `jax`: support for [JAX](https://github.com/jax-ml/jax) (automatic differentiation/GPU acceleration support)
 - `matplotlib`: plotting
 - `platformdirs`: reading/writing cache/config files
 - `cli`: command line scripts
@@ -51,13 +51,16 @@ uv run aerocore --help
 git clone https://github.com/abc8747/aerocore --depth=1
 cd aerocore
 uv venv
-uv sync --all-extras --all-groups
+# standard
+uv sync --all-groups --extra all
+# if you want to benchmark with GPU support 
+uv sync --all-groups --all-extras --no-extra 'torch-cpu'
 ```
 
 To run scripts:
 
 ```sh
-uv run examples/autodiff.py
+uv run examples/capabilities_jax.py
 ```
 
 For documentation:

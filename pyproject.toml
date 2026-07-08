@@ -4,13 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aerocore"
-version = "0.2.1"
+version = "0.2.2"
 authors = [{ name = "Abraham Cheung", email = "abraham@ylcheung.com" }]
 description = "A lightweight collection of tools for air traffic management research."
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
-keywords = ["air transportation", "atm", "visualisation"]
+keywords = ["air transportation", "atm"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Information Technology",
@@ -44,6 +45,18 @@ cli = ["typer>=0.26"]
 platformdirs = ["platformdirs>=4"]
 # pydantic = ["pydantic>=2.10"]
 all = ["aerocore[polars,httpx,xarray,jax,matplotlib,rich,cli,platformdirs]"]
+# development-only backends use extras because accelerator selection requires it
+# also note that PEP0817 is still under development and so the following hacks
+# are needed even though its not optimal. we therefore exclude it from `all`. 
+onnx = ["onnx>=1.20.0"]
+onnx_gpu = ["onnxruntime-gpu>=1.22.0"]
+torch_cpu = ["torch>=2.7.0"]
+torch_gpu = ["torch>=2.7.0"]
+jax_gpu = [
+    "jax[cuda12]>=0.5.0; python_version < '3.11'",
+    "jax[cuda13]>=0.5.0; python_version >= '3.11'",
+]
+onnxscript = ["onnxscript>=0.7.0"]
 
 [project.scripts]
 aerocore = "aerocore.cli:app"
@@ -53,16 +66,16 @@ aerocore = "aerocore.cli:app"
 dev = [
     { include-group = "test" },
     { include-group = "docs" },
+    { include-group = "typing" },
     "array-api-strict>=2.2",
     "ipykernel>=6.29.5",
     "mypy>=1.13.0",
     "ruff>=0.8.3",
-    "typer>=0.16.0",
-    "types-pytz>=2024.2.0.20241221",
+    "aerocore[cli]",
 ]
+typing = ["typing-extensions>=4.1.0", "types-pytz>=2024.2.0.20241221"]
 test = ["pytest>=8.3.4", "anyio>=4.7.0"]
-docs = ["zensical>=0.0.43", "mkdocstrings-python>=2.0.3"]
-
+docs = ["zensical>=0.0.47", "mkdocstrings-python>=2.0.3"]
 
 [tool.pytest.ini_options]
 markers = ["network: live network tests"]
@@ -81,6 +94,9 @@ lint.select = [
 ]
 line-length = 80
 target-version = "py310"
+
+[tool.ruff.lint.per-file-ignores]
+"examples/*.py" = ["E501"] # bare """ are cell outputs
 
 [tool.ruff.lint.isort]
 known-first-party = ["numpy", "pandas"]
@@ -109,9 +125,30 @@ module = [
     "aerocore.bada3",
     "aerocore.geo",
     "aerocore.turbofan",
+    "aerocore.acropole",
 ]
 disable_error_code = ["type-arg"]
 
 [[tool.mypy.overrides]]
 module = ["aerocore.array_api"]
 disable_error_code = ["type-arg", "no-untyped-def"]
+
+# see: https://docs.astral.sh/uv/guides/integration/pytorch/#configuring-accelerators-with-optional-dependencies
+[tool.uv]
+conflicts = [[{ extra = "torch_cpu" }, { extra = "torch_gpu" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "torch_cpu" },
+    { index = "pytorch-cu130", extra = "torch_gpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

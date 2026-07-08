@@ -4,7 +4,11 @@ repo_name: abc8747/aerocore
 repo_url: https://github.com/abc8747/aerocore
 site_url: https://abc8747.github.io/aerocore/
 nav:
+  - Home: "index.md"
+  - Capabilities: "capabilities.md"
+  - Fuel Estimation (Acropole): "acropole.md"
   - API Reference:
+      - Acropole: "api/acropole.md"
       - Core: "api/core.md"
       - Types: "api/types.md"
       - Data: "api/data.md"
@@ -75,7 +79,9 @@ markdown_extensions:
   - pymdownx.highlight:
       pygments_lang_class: true
   - pymdownx.magiclink
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
