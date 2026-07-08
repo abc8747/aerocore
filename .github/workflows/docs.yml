@@ -1,27 +1,19 @@
-name: build docs
+name: docs
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
-    tags:
-      - "*"
 
 permissions:
   contents: read
-  pages: write      # for deploying to GitHub Pages
-  id-token: write   # for authenticating deployment
 
 jobs:
-  deploy:
+  build:
+    name: Build Docs
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v6
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v6
 
       - name: Install uv
         uses: astral-sh/setup-uv@v8.2.0
@@ -33,17 +25,31 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Install the project
-        run: uv sync --all-extras --all-groups
+      - name: Install docs dependencies
+        run: uv sync --no-default-groups --group docs
 
       - name: Build with Zensical
-        run: uv run zensical build --clean  # no cache for zensical v0.0.x
+        run: uv run --no-default-groups --group docs zensical build --clean
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
+  deploy:
+    name: Deploy GitHub Pages
+    needs: build
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write      # for deploying to GitHub Pages
+      id-token: write   # for authenticating deployment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

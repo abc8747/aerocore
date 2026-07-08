@@ -30,7 +30,7 @@ jobs:
           python-version: "3.10"
 
       - name: install the project
-        run: uv sync --all-extras --all-groups
+        run: uv sync --all-groups --extra all --extra torch_cpu
 
       - name: style checking
         run: |
@@ -67,7 +67,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: install the project
-        run: uv sync --all-extras --all-groups
+        run: uv sync --all-groups --extra all --extra torch_cpu
 
       - name: run non-network tests
         run: uv run pytest -q -m "not network"
@@ -97,7 +97,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y zstd
 
       - name: install the project
-        run: uv sync --all-extras --all-groups
+        run: uv sync --all-groups --extra all --extra torch_cpu
 
       - name: run network tests
         env:

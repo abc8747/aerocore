@@ -45,6 +45,18 @@ def dirs() -> None:
 
 
 @app.command()
+def data_acropole_sync(
+    cache_dir: Path | None = None,
+    force: bool = False,
+) -> None:
+    """Download prepared Acropole model data."""
+    from .acropole import sync_data
+
+    for path in asyncio.run(sync_data(cache_dir=cache_dir, force=force)):
+        logger.info("synced=%s", path)
+
+
+@app.command()
 def data_adsblol_metadata_sync(
     repo_output_specs: list[str] | None = None,
 ) -> None:

@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, fields, is_dataclass, replace
 from logging import getLogger
 from pathlib import Path
-from typing import Callable, Concatenate, Generic, ParamSpec, TypeVar
+from typing import Any, Callable, Concatenate, Generic, ParamSpec, TypeVar
 
 logger = getLogger(__name__)
 
@@ -16,6 +16,32 @@ def default_cache_dir() -> Path:
     import platformdirs
 
     return platformdirs.user_cache_path("aerocore") / "data"
+
+
+def tree_map(function: Callable[[Any], Any], tree: Any) -> Any:
+    """Apply `function` to every leaf in a small Python tree.
+
+    This is similar to `jax.tree.map`, but does not support custom leaf
+    predicates, cyclic structures, sets, named tuples, container subclasses,
+    dataclass fields with `init=False`.
+
+    The behaviour may change in the future.
+    """  # keeping it super simple for now.
+    if is_dataclass(tree) and not isinstance(tree, type):
+        return replace(
+            tree,
+            **{
+                field.name: tree_map(function, getattr(tree, field.name))
+                for field in fields(tree)
+            },
+        )
+    if type(tree) is tuple:
+        return tuple(tree_map(function, value) for value in tree)
+    if type(tree) is list:
+        return [tree_map(function, value) for value in tree]
+    if type(tree) is dict:
+        return {key: tree_map(function, value) for key, value in tree.items()}
+    return function(tree)
 
 
 #
